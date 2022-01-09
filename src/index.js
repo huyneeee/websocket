@@ -9,16 +9,16 @@ app.use(cors());
 const server = http.createServer(app);
 
 const io = new Server(server, {
-    cors: {
-        origin: [
-            process.env.ORIGIN1,
-            process.env.ORIGIN2,
-            process.env.ORIGIN3,
-            process.env.ORIGIN4,
-            process.env.ORIGIN5,
-        ],
-        methods: ["GET", "POST"],
-    },
+  cors: {
+    origin: [
+      process.env.ORIGIN1,
+      process.env.ORIGIN2,
+      process.env.ORIGIN3,
+      process.env.ORIGIN4,
+      process.env.ORIGIN5,
+    ],
+    methods: ["GET", "POST"],
+  },
 });
 
 io.on("connection", (socket) => {
@@ -37,7 +37,7 @@ io.on("connection", (socket) => {
     console.log("User Disconnected", socket.id);
   });
 });
-
-server.listen(3001, () => {
+const port = process.env.PORT || 8000;
+server.listen(port, () => {
   console.log("SERVER RUNNING");
 });
