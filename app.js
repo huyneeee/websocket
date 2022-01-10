@@ -22,15 +22,24 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log(`User Connected: ${socket.id}`);
-
   socket.on("join_room", (data) => {
     socket.join(data);
-    console.log(`User with ID: ${socket.id} joined room: ${data}`);
+  });
+
+  socket.on("send_message_room", (data) => {
+    io.to(data.room).emit("receive_message_room", data);
+  });
+
+  socket.on("send_message_all", (data) => {
+    io.sockets.emit("receive_message_all", data);
   });
 
   socket.on("send_message", (data) => {
-    socket.to(data.room).emit("receive_message", data);
+    socket.broadcast.emit("receive_message", data);
+  });
+
+  socket.on("send_message_one", (data) => {
+    io.to(data.id).emit("receive_message_one", data);
   });
 
   socket.on("disconnect", () => {
